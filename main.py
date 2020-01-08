@@ -28,20 +28,27 @@ def sendForks(update, context):
         sub_links = []
         for link in links:
             if link[0] == args:
-                sub_links.append(link[1])
+                sub_links.append("a")
         
-        sub_links.insert(0, f'{args} has {len(sub_links)} repos. They are: ')
-        sub_links = "\n".join(sub_links)
-        context.bot.send_message(chat_id=update.effective_chat.id, text=sub_links)
+        toSend = f'{args} has {len(sub_links)} repos. '
+        context.bot.send_message(chat_id=update.effective_chat.id, text=toSend)
+
+def start(update, context):
+    toSend = """Welcome, I'm AbtahaBot. Chat with me :).
+Type /forks to get the list of all repos from fedora-infra
+Type /forks name where name is the name of the contributer to get the number of repos of that contributer"""
+    context.bot.send_message(chat_id=update.effective_chat.id, text=toSend)
 
 updater = Updater(token='1056953929:AAGKVZpg4OR6NgQMeGesXl9u2nfjMRJMocc', use_context=True)
 dispatcher = updater.dispatcher
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                     level=logging.INFO)
+                    level=logging.INFO)
 
 
-start_handler = CommandHandler('forks', sendForks)
+fork_handler = CommandHandler('forks', sendForks)
+start_handler = CommandHandler('start', start)
+dispatcher.add_handler(fork_handler)
 dispatcher.add_handler(start_handler)
 
 updater.start_polling()
