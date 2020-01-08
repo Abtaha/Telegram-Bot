@@ -7,7 +7,7 @@ from telegram.ext import CommandHandler
 def getLinks(data):
     links = []
     for entry in data:
-        links.append([entry['name'], entry['forks_url']])
+        links.append([entry['name'], entry['forks_url'], entry['forks']])
     return links
 
 def getData(url):
@@ -24,10 +24,9 @@ def sendForks(update, context):
         for link in links:
             context.bot.send_message(chat_id=update.effective_chat.id, text=link[1])
     else:
-        # These are the links by that particular person
-        sub_links = [link for link in links if link[0] == args]
+        number = [link[2] for link in links if link[0] == args]
         
-        toSend = f'{args} has {len(sub_links)} repos.'
+        toSend = f'{args} has {len(number)} repos.'
         context.bot.send_message(chat_id=update.effective_chat.id, text=toSend)
 
 def start(update, context):
