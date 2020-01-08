@@ -25,12 +25,9 @@ def sendForks(update, context):
             context.bot.send_message(chat_id=update.effective_chat.id, text=link[1])
     else:
         # These are the links by that particular person
-        sub_links = []
-        for link in links:
-            if link[0] == args:
-                sub_links.append("a")
+        sub_links = [link for link in links if link[0] == args]
         
-        toSend = f'{args} has {len(sub_links)} repos. '
+        toSend = f'{args} has {len(sub_links)} repos.'
         context.bot.send_message(chat_id=update.effective_chat.id, text=toSend)
 
 def start(update, context):
