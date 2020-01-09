@@ -26,7 +26,7 @@ def sendForks(update, context):
     else:
         number = [link[2] for link in links if link[0] == args]
         
-        toSend = f'{args} has {len(number)} repos.'
+        toSend = f'{args} has {number[0]} repos.'
         context.bot.send_message(chat_id=update.effective_chat.id, text=toSend)
 
 def start(update, context):
